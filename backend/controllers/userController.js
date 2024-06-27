@@ -1,4 +1,6 @@
 import { User } from "../models/userModel.js";
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 export const registerUser = async (req, res) => {
     try {
@@ -14,17 +16,21 @@ export const registerUser = async (req, res) => {
             res.status(400).send({ message: "User Already Exist" })
         }
 
+        const hashedPassword = bcrypt.hash(password, 9)
+
         const user = await User.create({
             name,
             email,
-            password
+            password: hashedPassword,
         })
 
         if (user) {
+            const token = generateToken(user.id)
             res.status(200).json({
                 _id: user.id,
                 name: user.name,
                 email: user.email,
+                token,
             })
         } else {
             res.status(500).send({ message: "Failed to create user" })
@@ -45,11 +51,16 @@ export const loginUser = async (req, res) => {
 
         const user = await User.findOne({ email })
 
-        if (user && user.password == password) {
+        const isMatch = bcrypt.compare(password, user.password)
+
+        const token = generateToken(user.id)
+
+        if (user && isMatch) {
             res.status(200).json({
                 _id: user.id,
                 name: user.name,
                 email: user.email,
+                token,
             })
         } else {
             res.status(400).send({ message: "Invalid Credentials" })
@@ -72,4 +83,10 @@ export const getMe = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d'
+    })
 }
