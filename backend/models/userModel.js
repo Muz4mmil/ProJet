@@ -12,11 +12,13 @@ const userSchema = mongoose.Schema({
     },
     password:{
         type: String,
-        require: [true, 'Add a password']
     },
-    image:{
+    picture:{
         type: String,
-        require: [true, 'Add a image']
+    },
+    saved: {
+        type: Array,
+        default: []
     }
 },
 {

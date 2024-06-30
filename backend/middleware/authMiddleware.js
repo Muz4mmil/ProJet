@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/userModel";
+import { User } from "../models/userModel.js";
 
-export const verify = (req, res, next) => {
+export const verify = async (req, res, next) => {
     try {
         let token;
 
@@ -10,10 +10,10 @@ export const verify = (req, res, next) => {
                 token = req.headers.authorization.split(' ')[1]
 
                 const decode = jwt.verify(token, process.env.JWT_SECRET)
-    
-                req.user = User.findById(decode.id).select('-password')
-    
-                next();    
+                
+                req.user = await User.findById(decode.id)
+
+                return next();    
             } catch (error) {
                 console.log(error)
                 res.status(401).send({ message: "Not authorized"})

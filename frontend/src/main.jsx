@@ -1,19 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import { Auth0Provider } from '@auth0/auth0-react'
 import './index.css'
+import { Provider } from 'react-redux'
+import userReducer from './features/user'
+import { configureStore } from '@reduxjs/toolkit'
+import { GoogleOAuthProvider } from "@react-oauth/google"
+
+
+const store = configureStore({
+  reducer: {
+    user: userReducer
+  }
+});
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain='dev-cznlblsfgwjwkjuy.us.auth0.com'
-      clientId="vSmWmOlwXwBfRcbXyAtMSTnzzZur64fa"
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}>
-      <App />
-    </Auth0Provider>
-
-  </React.StrictMode>,
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENTID}>
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>,
 )

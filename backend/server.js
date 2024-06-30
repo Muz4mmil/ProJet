@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import { connectDB } from './config/db.js';
 import userRouter from './routers/userRouter.js'
 import projectRouter from './routers/projectRouter.js'
+import cors from 'cors'
 
 dotenv.config();
 const PORT = process.env.PORT
@@ -10,9 +11,10 @@ const PORT = process.env.PORT
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cors())
 
 app.use('/api/users', userRouter)
-pp.use('/api/projects', projectRouter)
+app.use('/api/projects', projectRouter)
 
 connectDB()
 

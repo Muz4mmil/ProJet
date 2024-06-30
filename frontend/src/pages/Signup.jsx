@@ -1,8 +1,8 @@
 import React from 'react'
-import { setPersistence, signInWithEmailAndPassword, browserLocalPersistence, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { db, auth } from '../firebase-configs';
+import { setPersistence, createUserWithEmailAndPassword, browserLocalPersistence, updateProfile, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import SignInForm from '../components/SignInForm'
+import { auth, db } from '../firebase-configs';
+import SignUpForm from '../components/SignUpForm'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
@@ -10,24 +10,25 @@ import Cookies from 'js-cookie'
 import { login } from '../features/user'
 import { useGoogleLogin } from '@react-oauth/google';
 
-const Login = () => {
+const Signup = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleSignIn = async (email, password) => {
-    await axios.post('http://localhost:5000/api/users/login', { email, password })
-      .then((res) => {
-        const user = res.data
-        Cookies.set('token', user.token)
-        dispatch(login(user))
-        navigate('/profile/me')
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        alert(errorMessage);
-      });
+
+  const handleSignUp = async (name, email, password) => {
+    await axios.post('http://localhost:5000/api/users/register', { name, email, password })
+    .then((res) => {
+      const user = res.data
+      Cookies.set('token', user.token)
+      dispatch(login(user))
+      navigate('/profile/me')
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      alert(errorMessage);
+    });
   }
 
   const handleGoogleAuth = useGoogleLogin({
@@ -50,6 +51,7 @@ const Login = () => {
     }
   })
 
+
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider)
@@ -70,7 +72,9 @@ const Login = () => {
           photoURL: user.photoURL
         })
 
-        navigate('/profile/me')
+        if(user){
+          navigate('/profile/me')
+        }
 
       }).catch((error) => {
         // Handle Errors here.
@@ -88,9 +92,9 @@ const Login = () => {
 
   return (
     <div>
-      <SignInForm handleSignIn={handleSignIn} handleGoogleSignIn={handleGoogleAuth}/>
+      <SignUpForm handleSignUp={handleSignUp} handleGoogleSignIn={handleGoogleAuth} />
     </div>
   )
 }
 
-export default Login
+export default Signup
