@@ -4,6 +4,8 @@ import { connectDB } from './config/db.js';
 import userRouter from './routers/userRouter.js'
 import projectRouter from './routers/projectRouter.js'
 import cors from 'cors'
+import multer from "multer";
+const upload = multer({ dest: 'uploads/' });
 
 dotenv.config();
 const PORT = process.env.PORT

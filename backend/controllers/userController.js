@@ -39,15 +39,12 @@ export const registerUser = async (req, res) => {
         } else {
             res.status(500).send({ message: "Failed to create user" })
         }
-
     } catch (error) {
         res.status(500).send({ message: error.message })
     }
-
 }
 
 export const loginUser = async (req, res) => {
-
     try {
         const { email, password } = req.body;
 
@@ -78,7 +75,6 @@ export const loginUser = async (req, res) => {
         console.log(error);
         res.status(500).send({ message: "Invalid Credentials" })
     }
-
 }
 
 export const googleLogin = async (req, res) => {
@@ -140,13 +136,31 @@ export const googleLogin = async (req, res) => {
 
 export const getMe = async (req, res) => {
     try {
-        const { _id, name, email, saved } = await User.findById(req.user.id)
+        const { id, name, email, saved, picture } = await User.findById(req.user.id)
 
         res.status(200).json({
-            id: _id,
+            id: id,
             name,
             email,
-            saved
+            saved,
+            picture
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getUserInfo = async (req, res) => {
+    try {
+        const { uid } = req.query
+        const { id, name, email, saved, picture } = await User.findById(uid)
+
+        res.status(200).json({
+            id: id,
+            name,
+            email,
+            saved,
+            picture
         })
     } catch (error) {
         console.log(error);
@@ -157,4 +171,27 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d'
     })
+}
+
+export const saveProject = async (req, res) => {
+    try {
+        console.log('inside save')
+        const id = req.query.id
+        const user = req.user.id
+
+        const userDoc = await User.findById(user)
+
+        if (userDoc.saved.includes(id)) {
+            userDoc.saved = userDoc.saved.filter((item) => item !== id)
+        }
+        else {
+            userDoc.saved.push(id)
+        }
+
+        await userDoc.save()
+
+        return res.status(200).json(userDoc.saved)
+    } catch (error) {
+        return res.status(500).send({ message: error.message })
+    }
 }

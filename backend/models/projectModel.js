@@ -21,9 +21,8 @@ const projectSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    teamMembers: {
-        type: [String],
-    },
+    teamMembers: [Object],
+    
     isOrganisationProject: {
         type: Boolean,
         require: true
@@ -38,7 +37,7 @@ const projectSchema = mongoose.Schema({
     hostedLink: {
         type: String,
     },
-    projectImagesURLs: {
+    images: {
         type: [String],
     }
 })
