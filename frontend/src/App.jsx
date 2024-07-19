@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const token = Cookies.get('token')
     if (token) {
-      axios.get('http://localhost:5000/api/users/me', {
+      axios.get('https://projet-backend.netlify.app/api/users/me', {
         headers: {
           Authorization: `Bearer ${token}`
         }

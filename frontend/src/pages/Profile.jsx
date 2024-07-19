@@ -21,7 +21,7 @@ const Profile = () => {
     if (user) {
       if (tab == 'mine') {
         const unsubscribe = async () => {
-          await axios.get(`http://localhost:5000/api/projects?user=${user.id}`)
+          await axios.get(`https://projet-backend.netlify.app/api/projects?user=${user.id}`)
             .then(async (res) => {
               setProjects(res.data)
             })
@@ -34,7 +34,7 @@ const Profile = () => {
       }
       else if (tab == 'saved') {
         const unsubscribe = async () => {
-          await axios.post(`http://localhost:5000/api/projects/getSaved`, {
+          await axios.post(`https://projet-backend.netlify.app/api/projects/getSaved`, {
             saved: user.saved
           })
             .then(async (res) => {

@@ -12,7 +12,7 @@ const Signup = () => {
   const dispatch = useDispatch()
 
   const handleSignUp = async (name, email, password) => {
-    await axios.post('http://localhost:5000/api/users/register', { name, email, password })
+    await axios.post('https://projet-backend.netlify.app/api/users/register', { name, email, password })
     .then((res) => {
       const user = res.data
       Cookies.set('token', user.token)
@@ -28,7 +28,7 @@ const Signup = () => {
 
   const handleGoogleAuth = useGoogleLogin({
     onSuccess: async (user) => {
-      await axios.post('http://localhost:5000/api/users/googleAuth', { googleAuthUser: user })
+      await axios.post('https://projet-backend.netlify.app/api/users/googleAuth', { googleAuthUser: user })
       .then((res) => {
         const googleUser = res.data
         Cookies.set('token', googleUser.token)

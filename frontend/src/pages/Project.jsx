@@ -31,11 +31,11 @@ const Project = () => {
 
   useEffect(() => {
     const unsubscribe = async () => {
-      await axios.get(`http://localhost:5000/api/projects?id=${projectId}&user=${user.id}`)
+      await axios.get(`https://projet-backend.netlify.app/api/projects?id=${projectId}&user=${user.id}`)
         .then(async (res) => {
           setProject(res.data)
 
-          await axios.get(`http://localhost:5000/api/users/user?uid=${res.data.owner}`)
+          await axios.get(`https://projet-backend.netlify.app/api/users/user?uid=${res.data.owner}`)
             .then((res) => {
               setProjectOwner(res.data)
             })
@@ -53,7 +53,7 @@ const Project = () => {
   const handleDelete = async () => {
     setDeleteLoading(true)
     const token = Cookies.get('token')
-    await axios.delete(`http://localhost:5000/api/projects/${projectId}`,
+    await axios.delete(`https://projet-backend.netlify.app/api/projects/${projectId}`,
       { headers: { Authorization: `Bearer ${token}` } })
       .then(async (res) => {
         console.log(res.data)

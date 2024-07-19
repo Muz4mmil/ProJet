@@ -11,7 +11,7 @@ const Explore = () => {
 
   useEffect(() => {
     const unsubscribe = async () => {
-      await axios.get(`http://localhost:5000/api/projects`)
+      await axios.get(`https://projet-backend.netlify.app/api/projects`)
         .then((res) => {
           setProjects(res.data)
         })

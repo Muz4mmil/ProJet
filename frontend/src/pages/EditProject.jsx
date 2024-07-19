@@ -27,7 +27,7 @@ const EditProject = () => {
 
   useEffect(()=>{
     const unsubscribe = async () => {
-      await axios.get(`http://localhost:5000/api/projects?id=${projectId}&user=${user.id}`)
+      await axios.get(`https://projet-backend.netlify.app/api/projects?id=${projectId}&user=${user.id}`)
         .then(async (res) => {
           setFormData(res.data)
         })
@@ -43,7 +43,7 @@ const EditProject = () => {
     e.preventDefault();
     try {
       const token = Cookies.get('token');
-      await axios.put(`http://localhost:5000/api/projects/${projectId}`, formData, {
+      await axios.put(`https://projet-backend.netlify.app/api/projects/${projectId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

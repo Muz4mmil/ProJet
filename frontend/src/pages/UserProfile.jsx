@@ -15,7 +15,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      await axios.get(`http://localhost:5000/api/users/user?uid=${uid}`)
+      await axios.get(`https://projet-backend.netlify.app/api/users/user?uid=${uid}`)
       .then((res) => {
         setViewUser(res.data)
       })
@@ -23,7 +23,7 @@ const UserProfile = () => {
     }
 
     const getProjects = async () => {
-      await axios.get(`http://localhost:5000/api/projects?user=${uid}`)
+      await axios.get(`https://projet-backend.netlify.app/api/projects?user=${uid}`)
       .then((res) => {
         setProjects(res.data)
       })

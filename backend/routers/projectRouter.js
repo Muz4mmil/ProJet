@@ -4,12 +4,11 @@ const { verify } = require("../middleware/authMiddleware.js");
 const multer = require("multer");
 const fs = require('fs');
 const path = require("path");
-const { fileURLToPath } = require('url');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const folderName = req.body.name.toLowerCase();
-        const uploadPath = path.join(__dirname, 'uploads', folderName);
+        const uploadPath = path.join('/tmp/uploads', folderName);
 
         // Check if the folder exists, and create it if it doesn't
         if (!fs.existsSync(uploadPath)) {
