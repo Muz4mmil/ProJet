@@ -9,7 +9,6 @@ export const uploadFile = async (id, files) => {
     for (const file of files) {
       const filePath = path.join(file.destination, file.filename);
       const fileBuffer = fs.readFileSync(filePath);
-      console.log(file)
       const storageRef = ref(storage, `project-images/${id}/${file.originalname}`);
       const uploadTask = await uploadBytesResumable(storageRef, fileBuffer);
       uploadTask.task.on('state_changed',

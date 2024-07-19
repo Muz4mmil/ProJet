@@ -14,7 +14,7 @@ export const createProject = async (req, res) => {
 
         const newProject = await Project.create(project)
         const imageURLs = await uploadFile(newProject._id, files)
-        const update = await Project.findByIdAndUpdate(newProject._id, {...formData, images: imageURLs }, { new: true})
+        const update = await Project.findByIdAndUpdate(newProject._id, {...project, images: imageURLs }, { new: true})
         
         if (newProject && update) res.status(201).json(update)
         else res.status(400).send({ message: 'Failed to new create project' })

@@ -79,8 +79,7 @@ export const loginUser = async (req, res) => {
 
 export const googleLogin = async (req, res) => {
     try {
-        const accessToken = req.body.googleAuthUser.access_token
-        console.log(accessToken);
+        const accessToken = req.body.googleAuthUser.access_token;
         let gUser;
         await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`, {
             headers: {
@@ -175,7 +174,6 @@ const generateToken = (id) => {
 
 export const saveProject = async (req, res) => {
     try {
-        console.log('inside save')
         const id = req.query.id
         const user = req.user.id
 
