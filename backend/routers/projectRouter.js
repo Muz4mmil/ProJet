@@ -1,13 +1,10 @@
-import express from "express";
-import { createProject, deleteProject, getProjects, updateProject } from "../controllers/projectController.js";
-import { verify } from "../middleware/authMiddleware.js";
-import multer from "multer";
-import fs from 'fs'
-import path from "path";
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const { createProject, deleteProject, getProjects, updateProject } = require("../controllers/projectController.js");
+const { verify } = require("../middleware/authMiddleware.js");
+const multer = require("multer");
+const fs = require('fs');
+const path = require("path");
+const { fileURLToPath } = require('url');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -28,12 +25,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', getProjects)
-router.post('/getSaved', getProjects)
-router.post('/', verify, upload.array('images', 20), createProject)
-router.put('/:id', verify, updateProject)
-router.delete('/:id', verify, deleteProject)
+router.get('/', getProjects);
+router.post('/getSaved', getProjects);
+router.post('/', verify, upload.array('images', 20), createProject);
+router.put('/:id', verify, updateProject);
+router.delete('/:id', verify, deleteProject);
 
-export default router;
+module.exports = router;

@@ -25,7 +25,7 @@ const Header = () => {
               <Avatar
                 alt="User"
                 src={user.picture}
-                sx={{ width: '34px', height: '34px', fontSize: '40px' }}
+                sx={{ width: '34px', height: '34px', fontSize: '20px' }}
               >{user.name[0]}</Avatar>
             </div>
           </Link>

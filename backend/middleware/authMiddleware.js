@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import { User } from "../models/userModel.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel.js");
 
-export const verify = async (req, res, next) => {
+const verify = async (req, res, next) => {
     try {
         let token;
 
@@ -26,3 +26,7 @@ export const verify = async (req, res, next) => {
         res.status(400).send({ message: error.message })    
     }
 }
+
+module.exports = {
+    verify
+};

@@ -1,9 +1,9 @@
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject, listAll } from "firebase/storage";
-import { storage } from '../config/firebase-configs.js'
-import fs from 'fs'
-import path from "path";
+const { ref, uploadBytesResumable, getDownloadURL, deleteObject, listAll } = require("firebase/storage");
+const storage = require('../config/firebase-configs.js');
+const fs = require('fs');
+const path = require("path");
 
-export const uploadFile = async (id, files) => {
+const uploadFile = async (id, files) => {
   const downloadUrls = [];
   try {
     for (const file of files) {
@@ -11,6 +11,7 @@ export const uploadFile = async (id, files) => {
       const fileBuffer = fs.readFileSync(filePath);
       const storageRef = ref(storage, `project-images/${id}/${file.originalname}`);
       const uploadTask = await uploadBytesResumable(storageRef, fileBuffer);
+
       uploadTask.task.on('state_changed',
         (snapshot) => {},
         (error) => {
@@ -33,15 +34,14 @@ export const uploadFile = async (id, files) => {
   }
 }
 
-export const deleteFiles = async (id) => {
+const deleteFiles = async (id) => {
   try {
     await listAll(ref(storage, `project-images/${id}`))
       .then((res) => {
         res.items.forEach((itemRef) => {
           console.log('Deleted ' + itemRef.name);
-          deleteObject(itemRef)
-          
-        })
+          deleteObject(itemRef);
+        });
       }).catch((error) => {
         console.log(error.message);
       });
@@ -50,3 +50,5 @@ export const deleteFiles = async (id) => {
     throw error;
   }
 }
+
+module.exports = { uploadFile, deleteFiles };

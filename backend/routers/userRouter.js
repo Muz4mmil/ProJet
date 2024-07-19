@@ -1,14 +1,21 @@
-import express from "express";
-import { getMe, getUserInfo, googleLogin, loginUser, registerUser, saveProject } from "../controllers/userController.js";
-import { verify } from "../middleware/authMiddleware.js";
+const express = require("express");
+const {
+    getMe,
+    getUserInfo,
+    googleLogin,
+    loginUser,
+    registerUser,
+    saveProject,
+} = require("../controllers/userController");
+const { verify } = require("../middleware/authMiddleware");
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/register', registerUser)
-router.post('/login', loginUser)
-router.post('/googleAuth', googleLogin)
-router.get('/me', verify, getMe)
-router.get('/user', getUserInfo)
-router.put('/save', verify, saveProject)
+router.post('/register', registerUser);
+router.post('/login', loginUser);
+router.post('/googleAuth', googleLogin);
+router.get('/me', verify, getMe);
+router.get('/user', getUserInfo);
+router.put('/save', verify, saveProject);
 
-export default router;
+module.exports = router;
