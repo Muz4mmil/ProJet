@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { collection, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { ref, deleteObject, listAll } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-import { db, storage } from '../firebase-configs';
 import PersonIcon from '@mui/icons-material/Person';
 import CategoryIcon from '@mui/icons-material/Category';
 import LinkIcon from '@mui/icons-material/Link';
@@ -18,6 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
+import Cookies from 'js-cookie'
 
 const Project = () => {
   const user = useSelector((state) => state.user.user.value);;
@@ -30,35 +29,42 @@ const Project = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const projectRef = doc(db, 'projects', projectId)
-
   useEffect(() => {
     const unsubscribe = async () => {
-      const project = await getDoc(projectRef);
-      const projectData = await project.data()
-      setProject(projectData)
+      await axios.get(`http://localhost:5000/api/projects?id=${projectId}&user=${user.id}`)
+        .then(async (res) => {
+          setProject(res.data)
 
-      const userRef = doc(db, 'users', projectData.owner)
-      const owner = await getDoc(userRef);
-      const ownerData = await owner.data()
-      setProjectOwner(ownerData)
+          await axios.get(`http://localhost:5000/api/users/user?uid=${res.data.owner}`)
+            .then((res) => {
+              setProjectOwner(res.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
-
     unsubscribe();
   }, [])
 
   const handleDelete = async () => {
     setDeleteLoading(true)
-    await deleteDoc(projectRef);
-    await listAll(ref(storage, `projectImages/${projectId}`))
-      .then((res) => {
-        res.items.forEach((itemRef) => {
-          console.log(itemRef);
-          deleteObject(itemRef)
-        })
-      }).catch((error) => {
-        console.log(error.message);
-      });
+    const token = Cookies.get('token')
+    await axios.delete(`http://localhost:5000/api/projects/${projectId}`,
+      { headers: { Authorization: `Bearer ${token}` } })
+      .then(async (res) => {
+        console.log(res.data)
+        setDeleteLoading(false)
+        setOpenDialog(false)
+      })
+      .catch((error) => {
+        console.log(error)
+        setDeleteLoading(false)
+      })
+
     navigate(-1)
   }
 
@@ -68,12 +74,12 @@ const Project = () => {
       {project && projectOwner ? (
         <>
           <div className="images max-w-max my-6 flex gap-4 overflow-x-scroll">
-            {project.projectImagesURLs.map((url, index) => (
+            {project.images.map((url, index) => (
               <img key={index} src={url} className='max-h-72 object-cover mb-2' />
             ))}
           </div>
 
-          {projectOwner.uid == user.uid &&
+          {projectOwner.id == user.id &&
             <div className='mt-6 flex gap-4'>
               <Link to={`/edit/${projectId}`}>
                 <Button
@@ -128,8 +134,8 @@ const Project = () => {
             <h1 className='my-4 text-3xl font-poppins font-medium'>{project.name}</h1>
             <div className='flex gap-5 items-center'>
               {projectOwner &&
-                <Link to={`/profile/${projectOwner.uid}`}>
-                  <p className='flex items-center gap-2 hover:text-sky-700'><PersonIcon />{projectOwner.displayName || 'unknown'}</p>
+                <Link to={`/profile/${projectOwner.id}`}>
+                  <p className='flex items-center gap-2 hover:text-sky-700'><PersonIcon />{projectOwner.name || 'unknown'}</p>
                 </Link>}
               <p>|</p>
               <p className=' flex items-center gap-2'><CategoryIcon />{project.category}</p>

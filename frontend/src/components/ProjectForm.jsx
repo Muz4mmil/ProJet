@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -12,8 +12,26 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import FileUpload from './FileUpload'
+// import imageCompression from 'browser-image-compression';
+import LinearProgress from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
 
-const ProjectForm = ({ formData, setFormData, handleSubmit }) => {
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
+const ProjectForm = ({ formData, setFormData, handleSubmit, type }) => {
+
+  const [isUploadingFiles, setIsUploadingFiles] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +39,29 @@ const ProjectForm = ({ formData, setFormData, handleSubmit }) => {
       ...prevData,
       [name]: value,
     }))
+  }
+
+  const handleFilesChange = async (e) => {
+    setIsUploadingFiles(true)
+    // const options = {
+    //   maxSizeMB: 0.2,
+    //   maxWidthOrHeight: 1920,
+    //   useWebWorker: true,
+    // }
+
+    // const compressedImages = []
+    // for (const file of e.target.files) {
+    //   const compressedFile = await imageCompression(file, options)
+    //   compressedImages.push(compressedFile)
+    //   console.log(file)
+    // }
+
+    const files = Array.from(e.target.files);
+    setFormData((prevData) => ({
+      ...prevData,
+      images: files,
+    }));
+    setIsUploadingFiles(false);
   }
 
   const handleMemberChange = (index, field, value) => {
@@ -56,7 +97,7 @@ const ProjectForm = ({ formData, setFormData, handleSubmit }) => {
   }
 
   return (
-    <div className="form-box max-w-[400px]">
+    <div className="relative form-box max-w-[400px]">
       <Box
         component="form"
         sx={{
@@ -154,6 +195,7 @@ const ProjectForm = ({ formData, setFormData, handleSubmit }) => {
             </FormControl>
           </div>
         </div>
+
         <FormControl fullWidth>
           <div className="mb-4">
             <FormControlLabel
@@ -167,10 +209,34 @@ const ProjectForm = ({ formData, setFormData, handleSubmit }) => {
           <TextField id="outlined-basic" name='githubLink' value={formData.githubLink} onChange={handleChange} label="Project Github Link (optional)" variant="outlined" />
           <TextField id="outlined-basic" name='hostedLink' value={formData.hostedLink} onChange={handleChange} label="Project Hosted Link (optional)" variant="outlined" />
         </FormControl>
+
+        {type === 'create' && <FormControl fullWidth>
+          <Button
+            fullWidth
+            component="label"
+            role={undefined}
+            variant="outlined"
+            tabIndex={-1}
+          // startIcon={<CloudUploadIcon />}
+          >
+            Select files
+            <VisuallyHiddenInput required type="file" accept="image/*" multiple onChange={handleFilesChange} />
+          </Button>
+        </FormControl>}
+
         <FormControl fullWidth>
-          <Button type='submit' variant="contained" className='w-max' sx={{ my: 2, ml: 'auto' }}>Create Project</Button>
+          <Button type='submit' variant="contained" className='w-max' sx={{ my: 2, ml: 'auto' }}>{type === 'edit' ? 'Save' : 'Create'} Project</Button>
         </FormControl>
       </Box>
+
+      {isUploadingFiles && (
+        <div className='absolute top-0 left-0 h-full w-full bg-white bg-opacity-70 grid place-items-center'>
+          <div className={`w-full mt-2`}>
+            <LinearProgress />
+          </div>
+          <p id='upload-helper' className='mt-1 text-sm'>Uploading...</p>
+        </div>
+      )}
     </div>
   )
 }

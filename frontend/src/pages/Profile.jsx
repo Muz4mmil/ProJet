@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from '../components/Logout'
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { db } from '../firebase-configs';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import ShareIcon from '@mui/icons-material/Share';
@@ -11,53 +9,55 @@ import { Button } from '@mui/material';
 import ProjectCard from '../components/ProjectCard'
 import AuthHelper from '../components/AuthHelper';
 import CardsContainer from '../components/CardsContainer'
+import axios from 'axios';
 
 const Profile = () => {
   const user = useSelector((state) => state.user.user.value);
-  console.log("State user: " + user)
   const [projects, setProjects] = useState([])
   const [tab, setTab] = useState('mine')
 
-  const projectsRef = collection(db, 'projects')
+  useEffect(() => {
+    setProjects([])
+    if (user) {
+      if (tab == 'mine') {
+        const unsubscribe = async () => {
+          await axios.get(`http://localhost:5000/api/projects?user=${user.id}`)
+            .then(async (res) => {
+              setProjects(res.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
 
-  // useEffect(() => {
-  //   setProjects([])
-  //   if (user) {
-  //     if (tab == 'mine') {
-  //       const queryProjects = query(projectsRef, where('owner', '==', user.uid))
-  //       const unsubscribe = onSnapshot(queryProjects, (snapshot) => {
-  //         const projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-  //         setProjects(projects)
-  //       })
-  //       return () => unsubscribe()
-  //     }
-  //     else if (tab == 'saved') {
-  //       const userDocRef = doc(db, "users", user.uid);
-  //       const unsubscribe = onSnapshot(userDocRef, async (docSnap) => {
-  //         const docData = docSnap.data()
-  //         const savedProjects = docData.saved
+        unsubscribe();
+      }
+      else if (tab == 'saved') {
+        const unsubscribe = async () => {
+          await axios.post(`http://localhost:5000/api/projects/getSaved`, {
+            saved: user.saved
+          })
+            .then(async (res) => {
+              setProjects(res.data)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
 
-  //         let projects = []
-  //         for (const projectId of savedProjects) {
-  //           const ProjectDocRef = doc(db, "projects", projectId);
-  //           const ProjectdocSnap = await getDoc(ProjectDocRef);
-  //           const ProjectdocData = ProjectdocSnap.data()
-  //           if (ProjectdocData) {
-  //             projects.push({ id: projectId, ...ProjectdocData })
-  //           }
-  //         }
-  //         setProjects(projects)
-  //       })
-  //       return () => unsubscribe()
-  //     }
-  //   }
-  // }, [tab])
+        unsubscribe()
+      }
+    }
+  }, [tab])
 
 
   return (
     user ? (
       <div className='w-[80%] mx-auto'>
-        <h1 className='my-10 text-3xl font-poppins font-medium'>Profile</h1>
+        <div className="my-10 flex justify-between">
+          <h1 className='text-3xl font-poppins font-medium'>Profile</h1>
+          <Logout />
+        </div>
         <div className='flex gap-16 max-sm:gap-10'>
           <div>
             <Avatar
@@ -73,9 +73,8 @@ const Profile = () => {
             </>)}
 
             <div className='flex gap-2 item-center my-6'>
-              <ShareIcon/>
+              <ShareIcon />
               <Button
-                variant='outlined'
                 size='small'
                 sx={{ width: 'max-content' }}
                 onClick={(e) => {
@@ -91,8 +90,6 @@ const Profile = () => {
             </div>
           </div>
         </div>
-
-        <Logout />
 
         <div className="projects">
           <div className="tabs my-16 flex gap-8 items-end">

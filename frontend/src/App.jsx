@@ -41,7 +41,7 @@ function App() {
   }, [dispatch])
 
   return (
-    !isLoading ? <>
+    !isLoading ? <div className=' min-h-[100dvh] relative pb-20 max-sm:pb-24'>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -57,7 +57,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-    </> : <div>Loading...</div>
+    </div> : <div>Loading...</div>
   )
 }
 

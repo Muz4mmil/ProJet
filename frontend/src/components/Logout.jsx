@@ -7,6 +7,7 @@ import { googleLogout } from '@react-oauth/google';
 import { logout } from '../features/user';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Logout = () => {
   const navigate = useNavigate()
@@ -22,7 +23,7 @@ const Logout = () => {
 
   return (
     <div className=' ml-[164px] max-sm:ml-[140px]'>
-      <Button variant='contained' size='small' onClick={handleLogout}>Logout</Button>
+      <Button  color="error" size='small' onClick={handleLogout} startIcon={<LogoutIcon />}>Logout</Button>
     </div>
   )
 }

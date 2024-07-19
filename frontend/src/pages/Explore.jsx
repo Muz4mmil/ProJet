@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { db } from '../firebase-configs';
 import CardsContainer from '../components/CardsContainer'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 const Explore = () => {
   const [projects, setProjects] = useState([])
 
-  const projectsRef = collection(db, 'projects')
-
   useEffect(() => {
-    const fetchProjects = async () => {
-      const querySnapshot = await getDocs(projectsRef)
-      const projects = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }))
-      setProjects(projects)
+    const unsubscribe = async () => {
+      await axios.get(`http://localhost:5000/api/projects`)
+        .then((res) => {
+          setProjects(res.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
-    fetchProjects();
+
+    unsubscribe()
   }, [])
 
   const user = useSelector((state) => state.user.user.value);;

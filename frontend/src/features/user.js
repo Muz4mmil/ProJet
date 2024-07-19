@@ -14,9 +14,13 @@ export const userSlice = createSlice({
         logout: (state) => {
             state.user.value = initialStateValue;
         },
+        updateSaved: (state, action) => {
+            console.log(action.payload)
+            state.user.value.saved = action.payload;
+        }
     },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, updateSaved } = userSlice.actions;
 
 export default  userSlice.reducer;

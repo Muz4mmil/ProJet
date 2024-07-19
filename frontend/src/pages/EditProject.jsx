@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { doc, getDoc, updateDoc  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import ProjectForm from '../components/ProjectForm';
-import { db } from '../firebase-configs';
 import AuthHelper from '../components/AuthHelper';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const EditProject = () => {
   const user = useSelector((state) => state.user.user.value);;
@@ -16,7 +16,7 @@ const EditProject = () => {
     description: '',
     projectImagesURLs: [],
     category: '',
-    owner: user ? user.uid : null,
+    owner: user ? user.id : null,
     teamType: 'solo',
     teamMembers: [],
     isOrganisationProject: false,
@@ -25,13 +25,15 @@ const EditProject = () => {
     hostedLink: '',
   })
 
-  const projectRef = doc(db, 'projects', projectId)
-
   useEffect(()=>{
     const unsubscribe = async () => {
-        const project = await getDoc(projectRef);
-        const projectData = await project.data()
-        setFormData(projectData)
+      await axios.get(`http://localhost:5000/api/projects?id=${projectId}&user=${user.id}`)
+        .then(async (res) => {
+          setFormData(res.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       }
   
       unsubscribe();
@@ -39,13 +41,23 @@ const EditProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
-      const docRef = await updateDoc(projectRef, formData);
-      console.log('Document Updated');
-      setTimeout(() => {
-        navigate(`/explore/project/${projectId}`)
-      }, 1000)
+      const token = Cookies.get('token');
+      await axios.put(`http://localhost:5000/api/projects/${projectId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        console.log('Document Updated');
+        setTimeout(() => {
+          navigate(`/explore/project/${projectId}`)
+        }, 1000)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
     } catch (e) {
       console.error('Error adding document: ', e);
     }
@@ -56,7 +68,7 @@ const EditProject = () => {
       <div className='w-[80%] mx-auto flex justify-between'>
         <div className=''>
           <h1 className='my-16 text-3xl font-poppins font-medium'>Edit Project</h1>
-          <ProjectForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} />
+          <ProjectForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} type={'edit'}/>
         </div>
         <div className='hidden w-[50%] h-full mt-40 lg:flex items-center'>
           <img src="/assets/upload3.png" alt="upload" />

@@ -10,9 +10,9 @@ const Home = () => {
   return (
     <div>
       <section id="hero"
-        className="hero bg-blue-50 shadow mt-2 h-max flex flex-col justify-center text-center items-center gap-6 p-8 py-20 lg:p-24 w-[calc(100vw-24px)] lg:w-[calc(100vw-42px)] bg-white rounded-2xl m-auto">
+        className="hero mt-2 h-max flex flex-col justify-center text-center items-center gap-6 p-8 py-20 lg:p-24 w-full">
         <div className="hero-info flex flex-col justify-center">
-          <h1 className="font-poppins text-5xl lg:text-5xl font-bold">Welcome to ProJet</h1>
+          <h1 className="font-poppins text-5xl lg:text-6xl font-bold">Welcome to ProJet</h1>
           <h2 className="font-poppins text-3xl text-gray-500 mt-4 lg:text-5xl font-medium">Get Innovate, Build Unique, ShowOff</h2>
           <h5 className="text-lg text-center font-medium text-gray-600 mt-4">One place for all your Innovation</h5>
         </div>
@@ -40,9 +40,9 @@ const Home = () => {
       </div> */}
 
       <section
-        className="about flex flex-col lg:flex-row justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20 h-[80vh] w-[calc(100vw-24px)] rounded-2xl m-auto my-6">
-        <div className="lg:w-1/3 about-info">
-          <h2 className="text-2xl lg:text-left text-center lg:text-3xl font-bold">
+        className="about flex flex-col-reverse lg:flex-row justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20 w-[calc(100vw-24px)] rounded-2xl m-auto my-6">
+        <div className="lg:w-1/2 about-info">
+          <h2 className="text-3xl lg:text-left text-center lg:text-5xl font-bold">
             Facing Challenge in showcasing your Projects? <br />
             Limited Visibilty for your work?<br />
             Can't get Innovative ideas?
@@ -54,12 +54,15 @@ const Home = () => {
       </section>
 
       <section
-        className="solution flex flex-col lg:flex-row-reverse justify-around items-center gap-4 lg:gap-20 p-8 lg:p-20 h-[80vh] my-6">
-        <div className="lg:w-1/3 solution-info">
-          <h2 className="text-2xl lg:text-left text-center lg:text-3xl font-bold">
+        className="solution flex flex-col-reverse lg:flex-row-reverse justify-around items-center gap-4 lg:gap-20 p-8 lg:p-20  my-6">
+        <div className="lg:w-1/2 solution-info">
+          <h2 className="text-3xl lg:text-left text-center lg:text-5xl font-bold">
             You are at right place <br />
             One Stop for all your Projects
           </h2>
+          <p className="mt-5 text-lg font-poppins max-sm:text-center">
+          <strong>Projet</strong> is here to help! We give your work the visibility it deserves, connect you with fellow innovators, and offer endless fresh ideas. Join Projet and turn challenges into opportunities!
+          </p>
         </div>
         <div className="lg:w-[400px]">
           <img src="/assets/solution.png" className='h-full w-full' alt="solution" />
@@ -67,12 +70,15 @@ const Home = () => {
       </section>
 
       <section
-        className="about flex flex-col lg:flex-row justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20 h-[80vh] my-6">
-        <div className="lg:w-1/3 about-info">
-          <h2 className="text-2xl lg:text-left text-center lg:text-3xl font-bold">
+        className="about flex flex-col-reverse lg:flex-row justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20  my-6">
+        <div className="lg:w-1/2 about-info">
+          <h2 className="text-3xl lg:text-left text-center lg:text-5xl font-bold">
             Showcase all your great Achievments Digitally. <br />
             Share your Profile and Stand-out <br />
           </h2>
+          <p className="mt-5 text-lg font-poppins max-sm:text-center">
+          <strong>Projet</strong> lets you showcase your work digitally, making it easy for others to see your brilliance. Share your profile, highlight your successes, and stand out in a community of innovators. With Projet, your accomplishments won't just be noticed—they'll be celebrated!
+          </p>
         </div>
         <div className="lg:w-[500px]">
           <img src="/assets/showcase.png" className='h-full w-full' alt="showcase" />
@@ -80,11 +86,14 @@ const Home = () => {
       </section>
 
       <section
-        className="solution flex flex-col lg:flex-row-reverse justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20 h-[80vh] mt-10">
-        <div className="lg:w-1/3 solution-info">
-          <h2 className="text-2xl lg:text-left text-center lg:text-3xl font-bold">
+        className="solution flex flex-col-reverse lg:flex-row-reverse justify-around items-center gap-6 lg:gap-20 p-8 lg:p-20  mt-10">
+        <div className="lg:w-1/2 solution-info">
+          <h2 className="text-3xl lg:text-left text-center lg:text-5xl font-bold">
             Collaborate and get Innovate from others<br />
           </h2>
+          <p className="mt-5 text-lg font-poppins max-sm:text-center">
+          With <strong>Projet</strong>, you can connect with fellow creators, share ideas, and spark new innovations. Discover fresh perspectives, gain inspiration, and push the boundaries together. Join Projet and see how far you can go with the power of collaboration!
+          </p>
         </div>
         <div className="lg:w-[500px]">
           <img src="/assets/collab.png" a className='h-full w-full' lt="collab" />

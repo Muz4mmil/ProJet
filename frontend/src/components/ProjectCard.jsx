@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,40 +10,54 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { db } from '../firebase-configs';
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { updateSaved } from '../features/user';
+
 
 const ProjectCard = ({ project }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user.value);;
   const [isSaved, setIsSaved] = useState(false)
 
   useEffect(() => {
-    const unsubscribe = async () => {
-      const userDocRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(userDocRef);
-      const docData = docSnap.data()
-      const isPresent = docData.saved.includes(project.id)
+      const isPresent = user.saved.includes(project._id)
       setIsSaved(isPresent)
-    }
-    unsubscribe()
   }, [])
 
   const handleSave = async () => {
-    const userDocRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userDocRef);
-    const docData = docSnap.data()
-    if (!isSaved) {
-      await updateDoc(userDocRef, {
-        ...docData,
-        saved: [...docData.saved, project.id]
+    // const userDocRef = doc(db, "users", user.id);
+    // const docSnap = await getDoc(userDocRef);
+    // const docData = docSnap.data()
+    // if (!isSaved) {
+    //   await updateDoc(userDocRef, {
+    //     ...docData,
+    //     saved: [...docData.saved, project.id]
+    //   })
+    // }
+    // else {
+    //   const newSaved = docData.saved.filter((item) => item !== project.id)
+    //   await updateDoc(userDocRef, {
+    //     ...docData,
+    //     saved: newSaved
+    //   })
+    // }
+    // setIsSaved(!isSaved)
+    const token = Cookies.get('token')
+
+    await axios.put(`http://localhost:5000/api/users/save?id=${project._id}`, {},
+      {
+        headers: { Authorization: `Bearer ${token}`}
+      }
+    )
+      .then((res) => {
+        console.log(res.data)
+        dispatch(updateSaved(res.data))
+        setIsSaved(!isSaved)
       })
-    }
-    else {
-      const newSaved = docData.saved.filter((item) => item !== project.id)
-      await updateDoc(userDocRef, {
-        ...docData,
-        saved: newSaved
+      .catch((error) => {
+        console.log(error)
       })
-    }
-    setIsSaved(!isSaved)
   }
 
   return (
@@ -51,12 +65,12 @@ const ProjectCard = ({ project }) => {
       <CardMedia
         component="img"
         height="140"
-        image={project.projectImagesURLs[0] || '/assets/images.png'}
+        image={project.images[0] || '/assets/images.png'}
         alt="Project-image"
         className='object-cover h-[160px]'
       />
 
-      <Link to={`/explore/project/${project.id}`} >
+      <Link to={`/explore/project/${project._id}`} >
         <CardContent className='relative' sx={{ position: 'relative' }}>
           <Typography gutterBottom variant="h5" component="div">
             {project.name}
