@@ -6,7 +6,7 @@
   "license": "ISC",
   "description": "",
   "scripts": {
-    "start": "node server.js",
+    "start": "node api/server.js",
     "server": "nodemon server.js"
   },
   "dependencies": {
