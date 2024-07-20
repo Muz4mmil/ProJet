@@ -29,7 +29,7 @@ const Header = () => {
               >{user.name[0]}</Avatar>
             </div>
           </Link>
-        </div> : <div><Link to={'/login'}><Button variant='outlined' size='small'>Login</Button></Link></div>}
+        </div> : <div className='md:hidden'><Link to={'/login'}><Button variant='outlined' size='small'>Login</Button></Link></div>}
       </div>
 
       <div className="nav-links z-10 bg-white max-sm:fixed max-sm:bottom-0 max-sm:z-10 max-sm:w-full max-sm:border-t">
