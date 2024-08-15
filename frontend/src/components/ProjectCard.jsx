@@ -45,7 +45,7 @@ const ProjectCard = ({ project }) => {
     // setIsSaved(!isSaved)
     const token = Cookies.get('token')
 
-    await axios.put(`https://projet-backend.netlify.app/api/users/save?id=${project._id}`, {},
+    await axios.put(`https://projet-backend-blue.vercel.app/api/users/save?id=${project._id}`, {},
       {
         headers: { Authorization: `Bearer ${token}`}
       }

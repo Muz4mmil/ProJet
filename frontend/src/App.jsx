@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const token = Cookies.get('token')
     if (token) {
-      axios.get('https://projet-backend.netlify.app/api/users/me', {
+      axios.get('https://projet-backend-blue.vercel.app/api/users/me', {
         headers: {
           Authorization: `Bearer ${token}`
         }
