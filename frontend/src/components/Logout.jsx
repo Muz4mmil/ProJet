@@ -1,6 +1,4 @@
 import React from 'react'
-import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { auth } from '../firebase-configs';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { googleLogout } from '@react-oauth/google';

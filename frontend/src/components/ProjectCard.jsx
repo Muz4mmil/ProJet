@@ -8,8 +8,6 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { db } from '../firebase-configs';
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { updateSaved } from '../features/user';
@@ -26,23 +24,6 @@ const ProjectCard = ({ project }) => {
   }, [])
 
   const handleSave = async () => {
-    // const userDocRef = doc(db, "users", user.id);
-    // const docSnap = await getDoc(userDocRef);
-    // const docData = docSnap.data()
-    // if (!isSaved) {
-    //   await updateDoc(userDocRef, {
-    //     ...docData,
-    //     saved: [...docData.saved, project.id]
-    //   })
-    // }
-    // else {
-    //   const newSaved = docData.saved.filter((item) => item !== project.id)
-    //   await updateDoc(userDocRef, {
-    //     ...docData,
-    //     saved: newSaved
-    //   })
-    // }
-    // setIsSaved(!isSaved)
     const token = Cookies.get('token')
 
     await axios.put(`${import.meta.env.VITE_API_URL}/api/users/save?id=${project._id}`, {},
