@@ -11,10 +11,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
-import FileUpload from './FileUpload'
+// import FileUpload from './FileUpload'
 import imageCompression from 'browser-image-compression';
 import LinearProgress from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
+import { CircularProgress } from '@mui/material';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -29,7 +30,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const ProjectForm = ({ formData, setFormData, handleSubmit, type }) => {
+const ProjectForm = ({ formData, setFormData, handleSubmit, uploading, type }) => {
 
   const [isUploadingFiles, setIsUploadingFiles] = useState(false)
 
@@ -225,7 +226,7 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, type }) => {
         </FormControl>}
 
         <FormControl fullWidth>
-          <Button type='submit' variant="contained" className='w-max' sx={{ my: 2, ml: 'auto' }}>{type === 'edit' ? 'Save' : 'Create'} Project</Button>
+          <Button type='submit' disabled={uploading} variant="contained" className='w-max' sx={{ my: 2, ml: 'auto' }}>{type === 'edit' ? 'Save' : 'Create'} Project</Button>
         </FormControl>
       </Box>
 
@@ -239,6 +240,8 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, type }) => {
           </div>
         </div>
       )}
+
+      
     </div>
   )
 }

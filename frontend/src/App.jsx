@@ -16,6 +16,7 @@ import EditProject from './pages/EditProject'
 import Project from './pages/Project'
 import UserProfile from './pages/UserProfile'
 import { login, logout } from './features/user'
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -57,7 +58,9 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-    </div> : <div>Loading...</div>
+    </div> : <div className='min-h-[100dvh] grid place-items-center'>
+      <CircularProgress />
+    </div>
   )
 }
 
