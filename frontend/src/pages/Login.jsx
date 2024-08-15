@@ -13,7 +13,7 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const handleSignIn = async (email, password) => {
-    await axios.post('https://projet-backend-blue.vercel.app/api/users/login', { email, password })
+    await axios.post(`${import.meta.env.VITE_API_URL}/api/users/login`, { email, password })
       .then((res) => {
         const user = res.data
         Cookies.set('token', user.token)
@@ -29,7 +29,7 @@ const Login = () => {
 
   const handleGoogleAuth = useGoogleLogin({
     onSuccess: async (user) => {
-      await axios.post('https://projet-backend-blue.vercel.app/api/users/googleAuth', { googleAuthUser: user })
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/users/googleAuth`, { googleAuthUser: user })
       .then((res) => {
         const googleUser = res.data
         Cookies.set('token', googleUser.token)

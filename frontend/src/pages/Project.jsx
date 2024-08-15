@@ -19,7 +19,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'
 
 const Project = () => {
-  const user = useSelector((state) => state.user.user.value);;
+  const user = useSelector((state) => state.user.user.value);
   const { projectId } = useParams()
   const [project, setProject] = useState()
   const [projectOwner, setProjectOwner] = useState()
@@ -30,12 +30,16 @@ const Project = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
+    let userid = '';
+    if(user && user.id) {
+      userid = user.id
+    }
     const unsubscribe = async () => {
-      await axios.get(`https://projet-backend-blue.vercel.app/api/projects?id=${projectId}&user=${user.id}`)
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?id=${projectId}&user=${userid}`)
         .then(async (res) => {
           setProject(res.data)
 
-          await axios.get(`https://projet-backend-blue.vercel.app/api/users/user?uid=${res.data.owner}`)
+          await axios.get(`${import.meta.env.VITE_API_URL}/api/users/user?uid=${res.data.owner}`)
             .then((res) => {
               setProjectOwner(res.data)
             })
@@ -53,7 +57,7 @@ const Project = () => {
   const handleDelete = async () => {
     setDeleteLoading(true)
     const token = Cookies.get('token')
-    await axios.delete(`https://projet-backend-blue.vercel.app/api/projects/${projectId}`,
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}`,
       { headers: { Authorization: `Bearer ${token}` } })
       .then(async (res) => {
         console.log(res.data)
@@ -79,7 +83,7 @@ const Project = () => {
             ))}
           </div>
 
-          {projectOwner.id == user.id &&
+          {user && projectOwner.id == user.id &&
             <div className='mt-6 flex gap-4'>
               <Link to={`/edit/${projectId}`}>
                 <Button
@@ -146,8 +150,8 @@ const Project = () => {
               project.teamType == 'team' ? (<>
                 <h5 className='mt-8 mb-1 text-xl font-bold font-poppins'>Team Members:</h5>
                 <ol className='ml-10 list-decimal'>
-                  {project.teamMembers.map((member) => (
-                    <li>
+                  {project.teamMembers.map((member, index) => (
+                    <li key={index}>
                       <p>{member.name}</p>
                     </li>
                   ))}

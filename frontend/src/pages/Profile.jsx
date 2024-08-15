@@ -21,7 +21,7 @@ const Profile = () => {
     if (user) {
       if (tab == 'mine') {
         const unsubscribe = async () => {
-          await axios.get(`https://projet-backend-blue.vercel.app/api/projects?user=${user.id}`)
+          await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?user=${user.id}`)
             .then(async (res) => {
               setProjects(res.data)
             })
@@ -34,7 +34,7 @@ const Profile = () => {
       }
       else if (tab == 'saved') {
         const unsubscribe = async () => {
-          await axios.post(`https://projet-backend-blue.vercel.app/api/projects/getSaved`, {
+          await axios.post(`${import.meta.env.VITE_API_URL}/api/projects/getSaved`, {
             saved: user.saved
           })
             .then(async (res) => {

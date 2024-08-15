@@ -11,7 +11,7 @@ const Explore = () => {
 
   useEffect(() => {
     const unsubscribe = async () => {
-      await axios.get(`https://projet-backend-blue.vercel.app/api/projects`)
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
         .then((res) => {
           setProjects(res.data)
         })

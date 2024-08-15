@@ -21,7 +21,7 @@ const ProjectCard = ({ project }) => {
   const [isSaved, setIsSaved] = useState(false)
 
   useEffect(() => {
-      const isPresent = user.saved.includes(project._id)
+      const isPresent = user && user.saved.includes(project._id)
       setIsSaved(isPresent)
   }, [])
 
@@ -45,7 +45,7 @@ const ProjectCard = ({ project }) => {
     // setIsSaved(!isSaved)
     const token = Cookies.get('token')
 
-    await axios.put(`https://projet-backend-blue.vercel.app/api/users/save?id=${project._id}`, {},
+    await axios.put(`${import.meta.env.VITE_API_URL}/api/users/save?id=${project._id}`, {},
       {
         headers: { Authorization: `Bearer ${token}`}
       }

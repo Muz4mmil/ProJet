@@ -12,6 +12,10 @@ const createProject = async (req, res) => {
             teamMembers: JSON.parse(formData.teamMembers) 
         }
 
+        for (const file of files) {
+            console.log(file.originalname)
+        }
+
         const newProject = await Project.create(project);
         const imageURLs = await uploadFile(newProject._id, files);
         const update = await Project.findByIdAndUpdate(newProject._id, {...project, images: imageURLs }, { new: true});

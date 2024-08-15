@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import FileUpload from './FileUpload'
-// import imageCompression from 'browser-image-compression';
+import imageCompression from 'browser-image-compression';
 import LinearProgress from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
 
@@ -231,10 +231,12 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, type }) => {
 
       {isUploadingFiles && (
         <div className='absolute top-0 left-0 h-full w-full bg-white bg-opacity-70 grid place-items-center'>
-          <div className={`w-full mt-2`}>
-            <LinearProgress />
+          <div className='w-52 text-center'>
+            <div className={`w-full mt-2`}>
+              <LinearProgress />
+            </div>
+            <p id='upload-helper' className='mt-1 bg-white'>Uploading...</p>
           </div>
-          <p id='upload-helper' className='mt-1 text-sm'>Uploading...</p>
         </div>
       )}
     </div>

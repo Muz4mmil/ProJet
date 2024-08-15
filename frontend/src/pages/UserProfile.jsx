@@ -15,7 +15,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      await axios.get(`https://projet-backend-blue.vercel.app/api/users/user?uid=${uid}`)
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/users/user?uid=${uid}`)
       .then((res) => {
         setViewUser(res.data)
       })
@@ -23,7 +23,7 @@ const UserProfile = () => {
     }
 
     const getProjects = async () => {
-      await axios.get(`https://projet-backend-blue.vercel.app/api/projects?user=${uid}`)
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/projects?user=${uid}`)
       .then((res) => {
         setProjects(res.data)
       })

@@ -2,13 +2,11 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Button } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
-import PersonIcon from '@mui/icons-material/Person';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Avatar from '@mui/material/Avatar';
+
 
 const Header = () => {
   const user = useSelector((state) => state.user.user.value);
@@ -33,20 +31,20 @@ const Header = () => {
       </div>
 
       <div className="nav-links z-10 bg-white max-sm:fixed max-sm:bottom-0 max-sm:z-10 max-sm:w-full max-sm:border-t">
-        <ul className="flex max-sm:py-3 gap-2 max-sm:justify-evenly items-center lg:space-x-8 font-medium font-poppins text-gray-900">
-          <li className=' max-sm:text-xs'><Link to={'/'}>
+        <ul className="flex max-sm:py-3 max-sm:justify-evenly items-center lg:space-x-8 font-medium font-poppins text-gray-900">
+          <li className='lg:hover:bg-slate-100 lg:py-2 lg:px-3 rounded-md text-center max-sm:text-xs'><Link to={'/'}>
             <div className='text-center hidden max-sm:block'>
               <HomeIcon />
             </div>
             <p>Home</p>
           </Link></li>
-          <li className=' max-sm:text-xs'><Link to={'/explore'}>
+          <li className='lg:hover:bg-slate-100 lg:py-2 lg:px-3 rounded-md text-center max-sm:text-xs'><Link to={'/explore'}>
             <div className='text-center hidden max-sm:block'>
               <ExploreIcon />
             </div>
             <p>Explore</p>
           </Link></li>
-          <li className=' max-sm:text-xs'><Link to={'/upload'}>
+          <li className='lg:hover:bg-slate-100 lg:py-2 lg:px-3 rounded-md text-center max-sm:text-xs'><Link to={'/upload'}>
             <div className='text-center hidden max-sm:block'>
               <CloudUploadIcon />
             </div>

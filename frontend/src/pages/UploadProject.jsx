@@ -46,7 +46,7 @@ const UploadProject = () => {
 
       console.log(data)
   
-      await axios.post('https://projet-backend-blue.vercel.app/api/projects', data, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/projects`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
