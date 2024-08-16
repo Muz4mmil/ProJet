@@ -187,7 +187,7 @@ const Project = () => {
                 size='small'
                 sx={{ width: 'max-content' }}
                 onClick={(e) => {
-                  navigator.clipboard.writeText(`https://app.projet.vercel.app/explore/project/${projectId}`);
+                  navigator.clipboard.writeText(`https://app-projet.vercel.app/explore/project/${projectId}`);
                   e.target.innerHTML = 'Link Copied';
                   setTimeout(() => {
                     e.target.innerHTML = "Share Project Link";

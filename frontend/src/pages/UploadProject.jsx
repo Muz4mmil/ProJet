@@ -91,7 +91,6 @@ const UploadProject = () => {
             <img src="/assets/upload3.png" alt="upload" />
           </div>
         </div >
-
       </>
     ) : (<AuthHelper />)
   )
