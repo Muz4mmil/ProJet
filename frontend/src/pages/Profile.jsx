@@ -15,6 +15,7 @@ const Profile = () => {
   const user = useSelector((state) => state.user.user.value);
   const [projects, setProjects] = useState([])
   const [tab, setTab] = useState('mine')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setProjects([])
@@ -28,6 +29,7 @@ const Profile = () => {
             .catch((error) => {
               console.log(error)
             })
+            .finally(() => setIsLoading(false))
         }
 
         unsubscribe();
@@ -43,6 +45,7 @@ const Profile = () => {
             .catch((error) => {
               console.log(error)
             })
+            .finally(() => setIsLoading(false))
         }
 
         unsubscribe()
@@ -103,7 +106,10 @@ const Profile = () => {
             >Saved</div>
           </div>
           <div>
-            <CardsContainer projects={projects} />
+            {isLoading ?
+              <ProjectCardSkeleton length={3} /> :
+              <CardsContainer projects={projects} />
+            }
           </div>
         </div>
       </div>

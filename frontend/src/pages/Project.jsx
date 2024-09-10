@@ -9,7 +9,7 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,6 +17,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import Cookies from 'js-cookie'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const Project = () => {
   const user = useSelector((state) => state.user.user.value);
@@ -31,7 +33,7 @@ const Project = () => {
 
   useEffect(() => {
     let userid = '';
-    if(user && user.id) {
+    if (user && user.id) {
       userid = user.id
     }
     const unsubscribe = async () => {
@@ -77,11 +79,16 @@ const Project = () => {
     <div className='lg:w-[80%] w-[90%] my-6 mx-auto'>
       {project && projectOwner ? (
         <>
-          <div className="images max-w-max my-6 flex gap-4 overflow-x-scroll">
+          <Swiper
+            spaceBetween={30}
+            slidesPerView={'auto'}
+          >
             {project.images.map((url, index) => (
-              <img key={index} src={url} className='max-h-72 object-cover mb-2' />
+              <SwiperSlide key={index} style={{ width: 'auto' }}>
+                <img src={url} className='h-72 object-cover mb-2' alt={`Slide ${index}`} />
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
 
           {user && projectOwner.id == user.id &&
             <div className='mt-6 flex gap-4'>
@@ -198,7 +205,9 @@ const Project = () => {
               </Button>
             </div>
           </div>
-        </>) : (<>Loading...</>)}
+        </>) : (<div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+          <CircularProgress />
+        </div>)}
     </div>
   )
 }
