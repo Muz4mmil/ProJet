@@ -16,7 +16,7 @@ const Header = () => {
     <header
       className={`header bg-white w-full flex justify-between items-center py-4 px-[10%] max-sm:px-0 max-h-16 transition-all duration-500 lg:max-h-full ${isExpanded && 'max-h-96'}`}>
       <div className="flex justify-between w-full max-sm:px-4 items-center">
-        <div className="logo text-3xl font-bold w-max max-sm:w-full">{'<'}ProJet{' />'}</div>
+        <Link to={'/'} className="logo text-3xl font-bold w-max max-sm:w-full">{'<'}ProJet{' />'}</Link>
         {user ? <div className='md:hidden'>
           <Link to={'/profile/me'} className='flex max-sm:flex-col gap-1 lg:gap-4 items-center '>
             <div className='border border-gray-200 hover:border-blue-400 duration-500 rounded-full p-[2px]'>

@@ -211,11 +211,13 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, uploading, type }) =
           <TextField id="outlined-basic" name='hostedLink' value={formData.hostedLink} onChange={handleChange} label="Project Hosted Link (optional)" variant="outlined" />
         </FormControl>
 
+        <InputLabel id="image-select-label" className="mt-5 mb-3">Select Project Images {'(Photos or Screenshots)'}</InputLabel>
         {type === 'create' && <FormControl fullWidth>
           <Button
             fullWidth
             component="label"
             role={undefined}
+            labelId="image-select-label"
             variant="outlined"
             tabIndex={-1}
           // startIcon={<CloudUploadIcon />}
@@ -224,6 +226,12 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, uploading, type }) =
             <VisuallyHiddenInput required type="file" accept="image/*" multiple onChange={handleFilesChange} />
           </Button>
         </FormControl>}
+        
+        {formData.images.length > 0 && <div className='flex gap-3 mt-3 pb-1 image overflow-x-scroll thin-scrollbar'>
+          {formData.images.map((img, index) => (
+            <img key={index} src={URL.createObjectURL(img)} className='h-20 w-auto rounded object-cover border' />
+          ))}
+        </div>}
 
         <FormControl fullWidth>
           <Button type='submit' disabled={uploading} variant="contained" className='w-max' sx={{ my: 2, ml: 'auto' }}>{type === 'edit' ? 'Save' : 'Create'} Project</Button>
@@ -241,7 +249,7 @@ const ProjectForm = ({ formData, setFormData, handleSubmit, uploading, type }) =
         </div>
       )}
 
-      
+
     </div>
   )
 }

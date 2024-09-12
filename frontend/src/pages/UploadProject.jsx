@@ -72,14 +72,14 @@ const UploadProject = () => {
   return (
     user ? (
       <>
-        <div className='w-[80%] mx-auto flex justify-between'>
+        <div className='w-[80%] max-sm:w-[90%]  mx-auto flex max-sm:flex-col-reverse justify-between'>
           <div className=''>
-            <h1 className='my-16 text-3xl font-poppins font-medium'>Upload New Project</h1>
+            <h1 className='my-16 max-sm:my-10 text-3xl font-poppins font-medium'>Upload New Project</h1>
             <ProjectForm formData={formData} setFormData={setFormData} handleSubmit={handleSubmit} uploading={uploading} type={'create'} />
 
             {uploading && (
               <div className='fixed top-0 left-0 h-full w-full bg-black bg-opacity-30 z-50 grid place-items-center overscroll-none'>
-                <div className='w-80 text-center border shadow-lg bg-white p-5 py-3 rounded flex items-center gap-10'>
+                <div className='w-80 text-center  shadow-lg bg-white p-5 py-3 rounded flex items-center gap-10'>
                   <div className={`mt-2`}>
                     <CircularProgress />
                   </div>
@@ -87,8 +87,8 @@ const UploadProject = () => {
                 </div>
               </div>
             )}</div>
-          <div className='hidden w-[50%] h-full mt-40 lg:flex items-center'>
-            <img src="/assets/upload3.png" alt="upload" />
+          <div className='lg:w-[50%] max-md:h-56  max-sm:mx-auto lg:h-full mt-40 max-sm:mt-10 flex items-center'>
+            <img src="/assets/upload3.png" className='h-full ' alt="upload" />
           </div>
         </div >
       </>

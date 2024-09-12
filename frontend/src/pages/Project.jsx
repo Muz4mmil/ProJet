@@ -18,7 +18,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import Cookies from 'js-cookie'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/pagination';
 
 const Project = () => {
   const user = useSelector((state) => state.user.user.value);
@@ -80,11 +82,13 @@ const Project = () => {
       {project && projectOwner ? (
         <>
           <Swiper
+            modules={[Pagination]}
             spaceBetween={30}
             slidesPerView={'auto'}
+            pagination={{ clickable: true }}
           >
             {project.images.map((url, index) => (
-              <SwiperSlide key={index} style={{ width: 'auto' }}>
+              <SwiperSlide key={index} style={{ width: 'auto', paddingBottom: '30px' }}>
                 <img src={url} className='h-72 object-cover mb-2' alt={`Slide ${index}`} />
               </SwiperSlide>
             ))}

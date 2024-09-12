@@ -9,6 +9,7 @@ import { Button } from '@mui/material';
 import ProjectCard from '../components/ProjectCard'
 import AuthHelper from '../components/AuthHelper';
 import CardsContainer from '../components/CardsContainer'
+import ProjectCardSkeleton from '../components/ProjectCardSkeleton'
 import axios from 'axios';
 
 const Profile = () => {
