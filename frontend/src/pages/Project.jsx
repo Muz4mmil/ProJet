@@ -88,12 +88,12 @@ const Project = () => {
             pagination={{ clickable: true }}
           >
             {project.images.map((url, index) => (
-              <SwiperSlide key={index} style={{ width: 'auto', paddingBottom: '30px' }}>
-                <img src={url} className='h-72 object-cover mb-2' alt={`Slide ${index}`} />
+              <SwiperSlide key={index} className='w-auto max-sm:w-full pb-7'>
+                <img src={url} className='md:h-72 object-cover mb-2' alt={`Slide ${index}`} />
               </SwiperSlide>
             ))}
           </Swiper>
-
+{/*  style={{ width: 'auto', paddingBottom: '30px' }} */}
           {user && projectOwner.id == user.id &&
             <div className='mt-6 flex gap-4'>
               <Link to={`/edit/${projectId}`}>
