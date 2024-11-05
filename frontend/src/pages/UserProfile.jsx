@@ -59,7 +59,7 @@ const UserProfile = () => {
                 size='small'
                 sx={{ width: 'max-content' }}
                 onClick={(e) => {
-                  navigator.clipboard.writeText(`https://projet-app.web.app/profile/${viewUser.id}`);
+                  navigator.clipboard.writeText(`https://projetapp.vercel.app/profile/${viewUser.id}`);
                   e.target.innerHTML = 'Link Copied';
                   setTimeout(() => {
                     e.target.innerHTML = "Share Profile";
